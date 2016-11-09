@@ -1,0 +1,43 @@
+﻿
+
+
+select A.*
+,FormSent=case when B.formSent is null then 0 else b.FormSent end 
+from 
+(  select  
+   YMD=left(datekey,4)+'-'+right(left(datekey,6),2)+'-'+right(datekey,2)
+  ,datekey
+  ,Events='Check_Availability_Button_Click'
+  ,FormFieldArray,Lable
+  ,RowNum
+  ,FormOpen=count_big(distinct we.WebEventKey)
+  from DimensionalModelweb.fact.webevent we
+  join DynamicLeadFormListingRank pld
+  on we.listingid=cast(pld.listingid as varchar(64))
+  where we.profilekey=1  
+    and we.datekey between 20160414 and  20160831
+    and we.pagesubkey in (46,68,80)
+    and we.actionkey=1
+  group by  datekey,FormFieldArray,Lable,RowNum
+) A
+left join 
+(
+select  
+   YMD=left(datekey,4)+'-'+right(left(datekey,6),2)+'-'+right(datekey,2)
+  ,DATEKEY
+  ,Events='Click_Lead_Submission_Form_Botton'
+  ,FormFieldArray,Lable
+  ,RowNum
+  ,FormSent=count_big(distinct we.WebEventKey)
+  from DimensionalModelweb.fact.webevent we
+  join DynamicLeadFormListingRank pld
+  on we.listingid=cast(pld.listingid as varchar(64))
+  where we.profilekey=1  
+    and we.datekey between 20160414 and  20160831
+    and we.pagesubkey=302
+    and we.actionkey=1
+    and we.positionkey=72
+  group by  datekey,FormFieldArray,Lable,RowNum
+  ) B
+on a.datekey=b.datekey and a.FormFieldArray=b.formFieldArray
+order by a.rownum

@@ -1,0 +1,386 @@
+﻿--create table dbo.DynamicLeadFormListingFieldsArray
+--with (distribution=replicate) as
+--select 
+-- distinct 
+-- listingid
+-- ,propertyid
+-- ,FormFieldArray=case when [1] is not null then '1,' else '' end
+-- +case when [2] is not null then '2,' else '' end
+-- +case when [3] is not null then '3,' else '' end
+-- +case when [4] is not null then '4,' else '' end
+-- +case when [5] is not null then '5,' else '' end
+-- +case when [6] is not null then '6,' else '' end
+-- +case when [7] is not null then '7,' else '' end
+-- +case when [8] is not null then '8,' else '' end
+-- +case when [9] is not null then '9,' else '' end
+-- +case when [10] is not null then '10,' else ''  end
+-- +case when [11] is not null then '11,' else '' end
+-- +case when [12] is not null then '12,' else '' end
+-- +case when [13] is not null then '13,' else '' end
+-- +case when [14] is not null then '14,' else '' end
+-- +case when [15] is not null then '15,' else '' end
+-- +case when [16] is not null then '16,' else '' end
+-- +case when [17] is not null then '17,' else '' end
+-- +case when [18] is not null then '18,' else '' end
+-- +case when [19] is not null then '19,' else '' end
+--from
+--(
+--select dl.listingid,pv.*  
+--from dbo.[DynamicLeadFormPropValue] pv
+--join rentpath.dimension.listings dl on pv.propertyid=dl.propertyidAG
+ 
+--where pv.ymdid >=20160901
+--) s
+--pivot
+--(max(leadformoptionid) 
+--for leadFormOptionValueID in([1],[2],[3],[4],[5],[6],[7],[8],[9],[10],[11],[12],[13],[14],[15],[16],[17],[18],[19]) 
+--) p
+
+
+--create table sandbox.dbo.DynamicLeadFormTopRank
+--with (distribution=replicate) as
+--select
+--RowNum=Row_Number() over (order by count(distinct propertyid) desc) 
+--,PropertyCount=count(distinct propertyid) 
+--,[1],[2],[3],[4],[5],[6],[7],[8],[9],[10],[11],[12],[13],[14],[15],[16],[17],[18],[19]
+--,FormFieldArray=case when [1] =1 then '1,' else '' end
+-- +case when [2] =2 then '2,' else '' end
+-- +case when [3] =3 then '3,' else '' end
+-- +case when [4] =4 then '4,' else '' end
+-- +case when [5] =5 then '5,' else '' end
+-- +case when [6] =6 then '6,' else '' end
+-- +case when [7] =7 then '7,' else '' end
+-- +case when [8] =8 then '8,' else '' end
+-- +case when [9] =9 then '9,' else '' end
+-- +case when [10] =10 then '10,' else ''  end
+-- +case when [11] =11 then '11,' else '' end
+-- +case when [12] =12 then '12,' else '' end
+-- +case when [13] =13 then '13,' else '' end
+-- +case when [14] =14 then '14,' else '' end
+-- +case when [15] =15 then '15,' else '' end
+-- +case when [16] =16 then '16,' else '' end
+-- +case when [17] =17 then '17,' else '' end
+-- +case when [18] =18 then '18,' else '' end
+-- +case when [19] =19 then '19,' else '' end
+-- ,ArrarySum=[1]+[2]+[3]+[4]+[5]+[6]+[7]+[8]+[9]+[10]+[11]+[12]+[13]+[14]+[15]+[16]+[17]+[18]+[19]
+-- ,Lable=Case when [1]=1 then  'Do Not Display Beds Baths|' else '' end 
+--+Case when [2]=2 then  'Display Fields Beds Baths|' else '' end 
+--+Case when [3]=3 then  'Display Fields and Require Entry  Beds Baths|' else '' end 
+--+Case when [4]=4 then  'Display and Require Full Name Field (one field)|' else '' end 
+--+Case when [5]=5 then  'Display and Require First and Last Name Fields (two fields)|' else '' end 
+--+Case when [6]=6 then  'Display Phone Number Field|' else '' end 
+--+Case when [7]=7 then  'Display and Require Phone Number Entry|' else '' end 
+--+Case when [9]=9 then  'Display and Require Move-In Date Estimate Selection|' else '' end 
+--+Case when [12]=12 then  'Do Not Display Price Range Selection|' else '' end 
+--+Case when [13]=13 then  'Display Price Range Selection|' else '' end 
+--+Case when [14]=14 then  'Display and Require Price Range Selection|' else '' end 
+--+Case when [15]=15 then  'Do Not Display Reason for Moving Selection|' else '' end 
+--+Case when [16]=16 then  'Display Reason for Moving Selection|' else '' end 
+--+Case when [17]=17 then  'Display and Require Reason for Moving Selection|' else '' end 
+--+Case when [8]=8 then  'Display Move-In Date Estimate Selection|' else '' end 
+--+Case when [11]=11 then  'Display and Require Move-In Date Calendar Selection|' else '' end 
+--+Case when [19]=19 then  'Display and Require Email Confirmation Field|' else '' end 
+--+Case when [10]=10 then  'Display Move-In Date Calendar Selection|' else '' end 
+--+Case when [18]=18 then  'Do Not Display Email Confirmation Field|' else '' end 
+--from 
+--(
+--select 
+-- ymdid, propertyid
+-- ,[1] =case when [1] is not null then 1 else 0 end
+-- ,[2] =case when [2] is not null then 2 else 0 end
+-- ,[3] =case when [3] is not null then 3 else 0 end
+-- ,[4] =case when [4] is not null then 4 else 0 end
+-- ,[5] =case when [5] is not null then 5 else 0 end
+-- ,[6] =case when [6] is not null then 6 else 0 end
+-- ,[7] =case when [7] is not null then 7 else 0 end
+-- ,[8] =case when [8] is not null then 8 else 0 end
+-- ,[9] =case when [9] is not null then 9 else 0 end
+-- ,[10] =case when [10] is not null then 10 else 0 end
+-- ,[11] =case when [11] is not null then 11 else 0 end
+-- ,[12] =case when [12] is not null then 12 else 0 end
+-- ,[13] =case when [13] is not null then 13 else 0 end
+-- ,[14] =case when [14] is not null then 14 else 0 end
+-- ,[15] =case when [15] is not null then 15 else 0 end
+-- ,[16] =case when [16] is not null then 16 else 0 end
+-- ,[17] =case when [17] is not null then 17 else 0 end
+-- ,[18] =case when [18] is not null then 18 else 0 end
+-- ,[19] =case when [19] is not null then 19 else 0 end
+--from
+--(
+--select *  from dbo.[DynamicLeadFormPropValue] where ymdid=20160901
+--) s
+--pivot
+--(max(leadformoptionid) 
+--for leadFormOptionValueID in([1],[2],[3],[4],[5],[6],[7],[8],[9],[10],[11],[12],[13],[14],[15],[16],[17],[18],[19]) 
+--) p
+--) v
+--group by [1],[2],[3],[4],[5],[6],[7],[8],[9],[10],[11],[12],[13],[14],[15],[16],[17],[18],[19]
+
+
+--Create table dbo.DynamicLeadFormListingRank 
+
+--with (distribution=hash(listingID))
+
+--as
+--   select la.listingID, tr.*
+--  from dbo.DynamicLeadFormListingFieldsArray la
+--  join DynamicLeadFormTopRank tr on la.FormFieldArray=tr.FormFieldArray
+
+--select * from dbo.DynamicLeadFormListingFieldsArray
+--select * from sandbox.dbo.DynamicLeadFormTopRank
+--select * from DynamicLeadFormListingRank
+--select * from mDynamicLeadFormListingRank
+
+--select * from DynamicLeadFormListingRank where [3]=3
+
+--select A.YMD
+--,BedBathLeadsReqFormOpen,BedBathLeadsReqFormSent, FullNameReqFormOpen,FullNameReqFormSent
+--  ,LeadMoveReasonReqFormOpen,LeadMoveReasonReqFormSent,LeadMoveDateReqFormOpen,LeadMoveDateReqFormSent
+--  ,LeadMoveDateCalReqFormOpen,LeadMoveDateCalReqFormSent,LeadPriceRangeReqFormOpen,LeadPriceRangeReqFormSent
+--  ,LeadPhoneRequiredFormOpen,LeadPhoneRequiredFormSent,LeadConfirmEmailFormOpen,LeadConfirmEmailFormSent
+--  ,TwoNameLeadsFormOpen,TwoNameLeadsFormSent
+--  ,DefaultFormOpen, DefaultFormSent
+--from 
+--(  select  
+--   YMD=left(datekey,4)+'-'+right(left(datekey,6),2)+'-'+right(datekey,2)
+--  ,datekey
+--  ,Events='Check_Availability_Button_Click'
+--  ,BedBathLeadsReqFormOpen=count(distinct case when pld.listingid is not null and BedBathLeadsReq=1 then we.webeventkey else null end)
+--  ,FullNameReqFormOpen=count(distinct case when pld.listingid is not null and FullNameReq=1 then we.webeventkey else null end)
+--  ,LeadMoveReasonReqFormOpen=count(distinct case when pld.listingid is not null and LEADMOVEREASONREQ=1 then we.webeventkey else null end) 
+--  ,LeadMoveDateReqFormOpen=count(distinct case when pld.listingid is not null and LEADMOVEDATEREQ=1 then we.webeventkey else null end)
+--  ,LeadMoveDateCalReqFormOpen=count(distinct case when pld.listingid is not null and LEADMOVEDATECALREQ=1 then we.webeventkey else null end)
+--  ,LeadPriceRangeReqFormOpen=count(distinct case when pld.listingid is not null and LEADPRICERANGEREQ=1 then we.webeventkey else null end)
+--  ,LeadPhoneRequiredFormOpen=count(distinct case when pld.listingid is not null and LEADPHONEREQUIRED=1 then we.webeventkey else null end)
+--  ,LeadConfirmEmailFormOpen=count(distinct case when pld.listingid is not null and LEADCONFIRMEMAIL=1 then we.webeventkey else null end)
+--  ,TwoNameLeadsFormOpen=count(distinct case when pld.listingid is not null and TWONAMELEADS=1 then we.webeventkey else null end)
+--  ,DefaultFormOpen=count(distinct case when pld.listingid is null then we.webeventKey else null end)
+--  from DimensionalModelweb.fact.webevent we
+--  left join
+--   (select v.*
+--      from 
+--       (
+--       select ymdid,propertyid,ListingID
+--       ,case when [3] is null then 0 else 1 end BedBathLeadsReq 
+--       ,case when [4] is null then 0 else 1 end FullNameReq 
+--       ,case when [5] is null then 0 else 1 end TwoNameLeads
+--       ,case when [7] is null then 0 else 1 end LeadPhoneRequired
+--       ,case when [9] is null then 0 else 1 end LeadMoveDateReq
+--       ,case when [11] is null then 0 else 1 end LeadMoveDateCalReq
+--       ,case when [14] is null then 0 else 1 end LeadPriceRangeReq 
+--       ,case when [17] is null then 0 else 1 end LeadMoveReasonReq
+--       ,case when [19] is null then 0 else 1 end LeadConfirmEmail
+--       from 
+--             (select dl.listingid,dlf.*
+--                from sandbox.dbo.DynamicLeadFormPropValue dlf
+--                 join rentpath.dimension.listings dl
+--                   on dlf.propertyid=dl.propertyidag
+--               where dlf.ymdid between 20160414 and  20160913
+--             ) x
+--             pivot (max(leadFormOptionID) for x.LeadFormOptionValueid in ([3],[4],[5],[7],[9],[11],[14],[17],[19]) ) p
+--        ) v
+--     where (v.BEDBATHLEADSREQ+v.FullNameReq+v.LEADMOVEREASONREQ+v.LEADMOVEDATEREQ+v.LEADMOVEDATECALREQ
+--         +v.LEADPRICERANGEREQ+v.LEADPHONEREQUIRED+v.LEADCONFIRMEMAIL+v.TWONAMELEADS) > 0
+--  ) pld
+--  on we.listingid=cast(pld.listingid as varchar(64))
+--  and we.datekey=pld.ymdid
+--  where we.profilekey=1  
+--    and we.datekey between 20160414 and  20160913
+--    and we.pagesubkey in (46,68,80)
+--    and we.actionkey=1
+-- and isnumeric(we.listingid)=1
+-- and (cast(we.listingid as int ) < 2000000 or cast(we.listingid as int )> 100000000 )
+-- and we.listingID <> ''
+--  group by  datekey
+--) A
+--join 
+--(
+--select  
+--   YMD=left(datekey,4)+'-'+right(left(datekey,6),2)+'-'+right(datekey,2)
+--  ,DATEKEY
+--  ,Events='Click_Lead_Submission_Form_Botton'
+--  ,BedBathLeadsReqFormSent=count(distinct case when pld.listingid is not null and BedBathLeadsReq=1 then we.webeventkey else null end)
+--  ,FullNameReqFormSent=count(distinct case when pld.listingid is not null and FullNameReq=1 then we.webeventkey else null end)
+--  ,LeadMoveReasonReqFormSent=count(distinct case when pld.listingid is not null and LeadMoveReasonReq=1 then we.webeventkey else null end)
+--  ,LeadMoveDateReqFormSent=count(distinct case when pld.listingid is not null and LeadMoveDateReq=1 then we.webeventkey else null end)
+--  ,LeadMoveDateCalReqFormSent=count(distinct case when pld.listingid is not null and LeadMoveDateCalReq=1 then we.webeventkey else null end)
+--  ,LeadPriceRangeReqFormSent=count(distinct case when pld.listingid is not null and LeadPriceRangeReq=1 then we.webeventkey else null end)
+--  ,LeadPhoneRequiredFormSent=count(distinct case when pld.listingid is not null and LeadPhoneRequired=1 then we.webeventkey else null end)
+--  ,LeadConfirmEmailFormSent=count(distinct case when pld.listingid is not null and LeadConfirmEmail=1 then we.webeventkey else null end)
+--  ,TwoNameLeadsFormSent=count(distinct case when pld.listingid is not null and TwoNameLeads=1 then we.webeventkey else null end)
+--  ,DefaultFormSent=count(distinct case when pld.listingid is null then we.webeventKey else null end)
+--  from DimensionalModelweb.fact.webevent we
+--  Left join
+--   (select *
+--   from 
+--   (
+--   select ymdid,propertyid,ListingID
+--   ,case when [3] is null then 0 else 1 end BedBathLeadsReq 
+--   ,case when [4] is null then 0 else 1 end FullNameReq 
+--   ,case when [5] is null then 0 else 1 end TwoNameLeads
+--   ,case when [7] is null then 0 else 1 end LeadPhoneRequired
+--   ,case when [9] is null then 0 else 1 end LeadMoveDateReq
+--   ,case when [11] is null then 0 else 1 end LeadMoveDateCalReq
+--   ,case when [14] is null then 0 else 1 end LeadPriceRangeReq 
+--   ,case when [17] is null then 0 else 1 end LeadMoveReasonReq
+--   ,case when [19] is null then 0 else 1 end LeadConfirmEmail
+--   from 
+--   (select dl.listingid,dlf.*
+--      from sandbox.dbo.DynamicLeadFormPropValue dlf
+--      join rentpath.dimension.listings dl
+--     on dlf.propertyid=dl.propertyidag
+--     where dlf.ymdid between 20160414 and  20160913
+--   ) x
+--   pivot (max(leadFormOptionID) for x.LeadFormOptionValueid in ([3],[4],[5],[7],[9],[11],[14],[17],[19]) ) p
+--   ) v
+--     where (v.BEDBATHLEADSREQ+v.FullNameReq+v.LEADMOVEREASONREQ+v.LEADMOVEDATEREQ+v.LEADMOVEDATECALREQ
+--         +v.LEADPRICERANGEREQ+v.LEADPHONEREQUIRED+v.LEADCONFIRMEMAIL+v.TWONAMELEADS) > 0
+--  ) pld
+--  on we.listingid=cast(pld.listingid as varchar(64))
+--  and we.datekey=pld.ymdid
+--  where we.profilekey=1  
+--    and we.datekey between 20160414 and  20160913
+--    and we.pagesubkey=302
+--    and we.actionkey=1
+--    and we.positionkey=72
+-- and isnumeric(we.listingid)=1
+-- and (cast(we.listingid as int ) < 2000000 or cast(we.listingid as int )> 100000000 )
+-- and we.listingID <> ''
+--  group by  datekey
+--  ) B
+--on a.datekey=b.datekey
+--order by a.Datekey desc
+
+
+
+
+
+--select 
+--A.YMD,A.datekey,A.[Events],A.FormFieldArray,A.Lable,A.RowNum
+--,FormOpen = case when a.formOpen is null then 0 else a.formOpen end
+--,FormSent = case when B.formSent is null then 0 else b.FormSent end 
+--,FormOpenListingCount
+--,FormSentListingCount=case when B.FormSentListingCount is null then 0 else b.FormSentListingCount end
+--from 
+--(  select  
+--   YMD=left(datekey,4)+'-'+right(left(datekey,6),2)+'-'+right(datekey,2)
+--  ,datekey
+--  ,Events='Check_Availability_Button_Click'
+--  ,FormFieldArray= case when FormFieldArray is null then 'Default' else FormFieldArray end
+--  ,Lable= case when Lable is null then 'Default' else Lable end
+--  ,RowNum= case when Lable is null then 0 else RowNum end
+--  ,FormOpen=count_big(distinct we.WebEventKey)
+--  ,FormOpenListingCount=count(distinct we.listingid)
+--  from DimensionalModelweb.fact.webevent we
+--  left join DynamicLeadFormListingRank pld
+--  on we.listingid=cast(pld.listingid as varchar(64))
+--where we.datekey between 20160602 and  20160913
+--  and profilekey=2 
+--  and we.listingid <>''
+--  and pagekey=53
+--  and pagesubkey =46 
+--  and positionkey=42
+--  and isnumeric(we.listingid)=1
+--  and (cast(we.listingid as int ) < 2000000 or cast(we.listingid as int )> 100000000 )  
+--group by  datekey,FormFieldArray,Lable,RowNum
+--) A
+--left join 
+--(
+--select  
+--   YMD=left(datekey,4)+'-'+right(left(datekey,6),2)+'-'+right(datekey,2)
+--  ,DATEKEY
+--  ,Events='Click_Lead_Submission_Form_Botton'
+--  ,FormFieldArray= case when FormFieldArray is null then 'Default' else FormFieldArray end
+--  ,Lable= case when Lable is null then 'Default' else Lable end
+--  ,RowNum= case when Lable is null then 0 else RowNum end
+--  ,FormSent=count_big(distinct we.WebEventKey)
+--  ,FormSentListingCount= count_big(distinct we.listingid)
+--  from DimensionalModelweb.fact.webevent we
+--  left join DynamicLeadFormListingRank pld
+--  on we.listingid=cast(pld.listingid as varchar(64))
+-- where  we.datekey between 20160602 and  20160913
+--   and profilekey=2   --mdot
+--  and pagekey=53
+--  and pagesubkey=302 -- send_button
+--  and positionkey=72  --lead_submission_form
+--  and we.listingid <>''
+--  and isnumeric(we.listingid)=1
+--  and (cast(we.listingid as int ) < 2000000 or cast(we.listingid as int )> 100000000 ) 
+--  group by  datekey,FormFieldArray,Lable,RowNum
+--  ) B
+--on a.datekey=b.datekey and a.FormFieldArray=b.formFieldArray
+--order by a.rownum,a.datekey
+
+
+--select * from DynamicLeadFormListingRank
+
+--,case when [3] is null then 0 else 1 end BedBathLeadsReq 
+--   ,case when [4] is null then 0 else 1 end FullNameReq 
+--   ,case when [5] is null then 0 else 1 end TwoNameLeads
+--   ,case when [7] is null then 0 else 1 end LeadPhoneRequired
+--   ,case when [9] is null then 0 else 1 end LeadMoveDateReq
+--   ,case when [11] is null then 0 else 1 end LeadMoveDateCalReq
+--   ,case when [14] is null then 0 else 1 end LeadPriceRangeReq 
+--   ,case when [17] is null then 0 else 1 end LeadMoveReasonReq
+--   ,case when [19] is null then 0 else 1 end LeadConfirmEmail
+ 
+ select  * from DynamicLeadFormListingRank
+
+select a.*, FormSent= case when b.FormSent is null then 0 else b.FormSent end
+,CountRequired=BedBathRequired+FullNameRequired+TwoNameRequired+PhoneRequired+MoveDateRequired+MoveDateCalRequired+PriceRangeRequired+MoveReasonReqequired+ConfirmEmailRequired
+from
+(
+select  
+   YMD=left(datekey,4)+'-'+right(left(datekey,6),2)+'-'+right(datekey,2)
+  ,datekey
+  ,LeadFormType=case when Lable is null then 'No DLF' else 'DLF' end
+  ,FormFieldArray= case when FormFieldArray is null then 'Default' else FormFieldArray end
+  ,Lable= case when Lable is null then 'Default' else Lable end
+  ,RowNum= case when Lable is null then 0 else RowNum end
+  ,FormOpen=count(distinct we.WebEventKey)
+  ,ListingID=we.listingid
+  ,BedBathRequired=case when [3] =3 then 1 else 0 end
+  ,FullNameRequired=case when [4] =4 then 1 else 0 end
+  ,TwoNameRequired=case when [5] =5 then 1 else 0 end
+  ,PhoneRequired=case when [7] =7 then 1 else 0 end
+  ,MoveDateRequired=case when [9] =9 then 1 else 0 end
+  ,MoveDateCalRequired=case when [11]=11 then 1 else 0 end
+  ,PriceRangeRequired=case when [14]=14 then 1 else 0 end
+  ,MoveReasonReqequired=case when [17]=17 then 1 else 0 end
+  ,ConfirmEmailRequired=case when [19]=19 then 1 else 0 end
+  from DimensionalModelweb.fact.webevent we
+  left join DynamicLeadFormListingRank pld
+  on we.listingid=cast(pld.listingid as varchar(64))
+where we.datekey between 20160714 and  20160913
+    and we.profilekey=1 and we.pagesubkey in (46,68,80) and we.actionkey=1
+  and we.listingid <>''
+  and isnumeric(we.listingid)=1
+  and (cast(we.listingid as int ) < 2000000 or cast(we.listingid as int )> 100000000 )  
+   group by  
+  datekey
+  ,lable, FormFieldArray
+  ,Rownum
+  ,we.listingid
+  ,[3],[4],[5],[7],[9],[11],[14],[17],[19]
+) A
+left join 
+(
+select  
+   YMD=left(datekey,4)+'-'+right(left(datekey,6),2)+'-'+right(datekey,2)
+  ,DATEKEY
+  ,FormSent=count(distinct we.WebEventKey)
+  ,ListingID= we.listingid
+  from DimensionalModelweb.fact.webevent we
+ where  we.datekey between 20160714 and  20160913
+    and we.profilekey=1   and pagesubkey=302
+    and actionkey=1
+    and positionkey=72
+    and we.listingid <>''
+  and isnumeric(we.listingid)=1
+  and (cast(we.listingid as int ) < 2000000 or cast(we.listingid as int )> 100000000 ) 
+  group by datekey, we.listingid
+  ) B
+on a.datekey=b.datekey and a.ListingID=b.listingID
+
+
+
